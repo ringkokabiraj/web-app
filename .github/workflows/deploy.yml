@@ -1,19 +1,27 @@
-name: Deploy HTML
+name: Deploy HTML with Apache and PHP
 
 on:
   push:
     branches:
-      - main  # or your branch
+      - main
 
 jobs:
-  deploy:
+  setup-and-deploy:
     runs-on: self-hosted
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Deploy HTML to Apache
+      - name: Install Apache, PHP, and extensions
+        run: |
+          sudo apt update
+          sudo apt install -y apache2 php php-mbstring php-xml php-mysql libapache2-mod-php
+
+      - name: Copy website files
         run: |
           sudo cp index.html /var/www/html/index.html
           sudo chmod 644 /var/www/html/index.html
+
+      - name: Restart Apache
+        run: sudo systemctl restart apache2
