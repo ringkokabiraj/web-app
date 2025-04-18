@@ -20,8 +20,10 @@ jobs:
 
       - name: Copy website files
         run: |
-          sudo cp index.html /var/www/html/index.html
-          sudo chmod 644 /var/www/html/index.html
+          sudo rm -rf /var/www/html/*
+          sudo cp * /var/www/html/
+          sudo chown -R www-data:www-data /var/www/html/
+          sudo chmod -R 644 /var/www/html/
 
       - name: Restart Apache
         run: sudo systemctl restart apache2
