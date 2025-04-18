@@ -1,0 +1,19 @@
+name: Deploy HTML
+
+on:
+  push:
+    branches:
+      - main  # or your branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Deploy HTML to Apache
+        run: |
+          sudo cp index.html /var/www/html/index.html
+          sudo chmod 644 /var/www/html/index.html
